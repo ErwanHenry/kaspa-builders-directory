@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kaspa Builders Directory - Reward the Contributors</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --kaspa-primary: #1a1a2e;
+            --kaspa-secondary: #16213e;
+            --kaspa-accent: #49c6e5;
+            --kaspa-highlight: #00d9ff;
+            --text-primary: #ffffff;
+            --text-secondary: #a8b2d1;
+            --success: #4caf50;
+            --warning: #ff9800;
+            --error: #f44336;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, var(--kaspa-primary) 0%, var(--kaspa-secondary) 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(-100%); }
+            to { transform: translateX(0); }
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Header */
+        header {
+            background: rgba(26, 26, 46, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+            animation: slideIn 0.5s ease-out;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(45deg, var(--kaspa-accent), var(--kaspa-highlight));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        /* Wallet Connection */
+        .wallet-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .wallet-info {
+            background: rgba(73, 198, 229, 0.1);
+            border: 1px solid var(--kaspa-accent);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            color: var(--kaspa-accent);
+        }
+
+        .wallet-balance {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-top: 0.2rem;
+        }
+
+        button {
+            background: linear-gradient(45deg, var(--kaspa-accent), var(--kaspa-highlight));
+            color: var(--kaspa-primary);
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(73, 198, 229, 0.4);
+            animation: pulse 0.5s ease-in-out;
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* Stats Section */
+        .stats-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 3rem 0;
+            animation: fadeIn 1s ease-out 0.2s both;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 16px;
+            text-align: center;
+            border: 1px solid rgba(73, 198, 229, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--kaspa-highlight);
+            box-shadow: 0 10px 30px rgba(73, 198, 229, 0.3);
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--kaspa-highlight);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        /* Category Tabs */
+        .category-tabs {
+            display: flex;
+            gap: 1rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+            animation: fadeIn 1s ease-out 0.4s both;
+        }
+
+        .tab {
+            padding: 0.8rem 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(73, 198, 229, 0.3);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .tab:hover {
+            background: rgba(73, 198, 229, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .tab.active {
+            background: rgba(73, 198, 229, 0.2);
+            border-color: var(--kaspa-highlight);
+            box-shadow: 0 4px 20px rgba(73, 198, 229, 0.3);
+        }
+
+        .tab-count {
+            background: var(--kaspa-accent);
+            color: var(--kaspa-primary);
+            padding: 0.2rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            margin-left: 0.5rem;
+            font-weight: bold;
+        }
+
+        /* Builders Grid */
+        .builders-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+            animation: fadeIn 1s ease-out 0.6s both;
+        }
+
+        .builder-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(73, 198, 229, 0.3);
+            border-radius: 16px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .builder-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--kaspa-accent), var(--kaspa-highlight));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .builder-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .builder-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(73, 198, 229, 0.3);
+            border-color: var(--kaspa-highlight);
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--kaspa-highlight);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        /* Success Message */
+        .success-message {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--success);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            box-shadow: 0 5px 20px rgba(76, 175, 80, 0.3);
+            animation: fadeIn 0.3s ease-out;
+            z-index: 3000;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 { font-size: 2rem; }
+            .header-content { justify-content: center; text-align: center; }
+            .builders-grid { grid-template-columns: 1fr; }
+            .category-tabs { justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <h1>Kaspa Builders Directory</h1>
+                <div class="wallet-section">
+                    <div id="walletInfo" class="wallet-info" style="display: none;">
+                        <div id="walletAddress"></div>
+                        <div id="walletBalance" class="wallet-balance"></div>
+                    </div>
+                    <button id="connectWalletBtn" onclick="connectWallet()">
+                        Connect Wallet
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Stats Section -->
+        <div class="stats-section">
+            <div class="stat-card">
+                <div class="stat-number" id="totalBuilders">0</div>
+                <div class="stat-label">Total Builders</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="totalDonations">0</div>
+                <div class="stat-label">KAS Distributed</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="totalContributors">0</div>
+                <div class="stat-label">Active Contributors</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="totalVotes">0</div>
+                <div class="stat-label">Total Votes</div>
+            </div>
+        </div>
+
+        <!-- Category Tabs -->
+        <div class="category-tabs">
+            <div class="tab active" onclick="filterCategory('all')">
+                All <span class="tab-count" id="countAll">0</span>
+            </div>
+            <div class="tab" onclick="filterCategory('builder')">
+                Builders <span class="tab-count" id="countBuilder">0</span>
+            </div>
+            <div class="tab" onclick="filterCategory('core')">
+                Core Team <span class="tab-count" id="countCore">0</span>
+            </div>
+            <div class="tab" onclick="filterCategory('ambassador')">
+                Ambassadors <span class="tab-count" id="countAmbassador">0</span>
+            </div>
+            <div class="tab" onclick="filterCategory('kol')">
+                KOL <span class="tab-count" id="countKol">0</span>
+            </div>
+        </div>
+
+        <!-- Builders Grid -->
+        <div class="builders-grid" id="buildersGrid">
+            <!-- Cards generated dynamically -->
+        </div>
+    </main>
+
+    <script>
+        // Basic implementation for demo
+        let builders = [
+            {
+                id: 1,
+                name: "Shai Wyborski",
+                category: "core",
+                description: "Core developer working on GHOSTDAG protocol",
+                wallet: "kaspa:qpamkvhgh0kzx50gwvvp5xs8ktmqutcy3dfs9dc3w7lm9rq0zs76vf959mmrp",
+                donations: 15234.50,
+                upvotes: 156,
+                downvotes: 3
+            }
+        ];
+
+        function connectWallet() {
+            const btn = document.getElementById('connectWalletBtn');
+            btn.innerHTML = '<span class="loading"></span> Connecting...';
+            btn.disabled = true;
+            
+            setTimeout(() => {
+                document.getElementById('walletInfo').style.display = 'block';
+                document.getElementById('walletAddress').textContent = 'kaspa:qr4e1d...';
+                document.getElementById('walletBalance').textContent = 'Balance: 1,234 KAS';
+                btn.innerHTML = 'Disconnect';
+                btn.disabled = false;
+                showSuccess('Wallet connected successfully!');
+            }, 1500);
+        }
+
+        function filterCategory(category) {
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+            // Filter logic here
+        }
+
+        function showSuccess(message) {
+            const div = document.createElement('div');
+            div.className = 'success-message';
+            div.textContent = message;
+            document.body.appendChild(div);
+            setTimeout(() => div.remove(), 3000);
+        }
+
+        // Initialize stats
+        document.getElementById('totalBuilders').textContent = builders.length;
+        document.getElementById('totalDonations').textContent = '45,890';
+        document.getElementById('totalContributors').textContent = '234';
+        document.getElementById('totalVotes').textContent = '1,567';
+    </script>
+</body>
+</html>
